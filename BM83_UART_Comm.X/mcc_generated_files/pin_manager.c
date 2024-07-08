@@ -57,8 +57,8 @@
  Section: File specific functions
 */
 void (*BP5_InterruptHandler)(void) = NULL;
-void (*BP6_InterruptHandler)(void) = NULL;
 void (*BP4_InterruptHandler)(void) = NULL;
+void (*BP6_InterruptHandler)(void) = NULL;
 void (*BP3_InterruptHandler)(void) = NULL;
 
 /**
@@ -81,7 +81,7 @@ void PIN_MANAGER_Initialize (void)
     /****************************************************************************
      * Setting the GPIO Direction SFR(s)
      ***************************************************************************/
-    TRISA = 0xC4FF;
+    TRISA = 0xC4FE;
     TRISB = 0xFFFF;
     TRISC = 0x701E;
     TRISD = 0xFFFF;
@@ -144,7 +144,7 @@ void PIN_MANAGER_Initialize (void)
     ANSA = 0x0040;
     ANSB = 0xFF3F;
     ANSC = 0x0010;
-    ANSD = 0x0CC0;
+    ANSD = 0x0C40;
     ANSE = 0x0218;
     ANSG = 0x03C0;
     
@@ -162,15 +162,15 @@ void PIN_MANAGER_Initialize (void)
      * Interrupt On Change: negative
      ***************************************************************************/
     IOCNAbits.IOCNA7 = 1;    //Pin : RA7
-    IOCNDbits.IOCND1 = 1;    //Pin : RD1
     IOCNDbits.IOCND13 = 1;    //Pin : RD13
+    IOCNDbits.IOCND7 = 1;    //Pin : RD7
     IOCNGbits.IOCNG15 = 1;    //Pin : RG15
     /****************************************************************************
      * Interrupt On Change: flag
      ***************************************************************************/
     IOCFAbits.IOCFA7 = 0;    //Pin : RA7
-    IOCFDbits.IOCFD1 = 0;    //Pin : RD1
     IOCFDbits.IOCFD13 = 0;    //Pin : RD13
+    IOCFDbits.IOCFD7 = 0;    //Pin : RD7
     IOCFGbits.IOCFG15 = 0;    //Pin : RG15
     /****************************************************************************
      * Interrupt On Change: config
@@ -179,8 +179,8 @@ void PIN_MANAGER_Initialize (void)
     
     /* Initialize IOC Interrupt Handler*/
     BP5_SetInterruptHandler(&BP5_CallBack);
-    BP6_SetInterruptHandler(&BP6_CallBack);
     BP4_SetInterruptHandler(&BP4_CallBack);
+    BP6_SetInterruptHandler(&BP6_CallBack);
     BP3_SetInterruptHandler(&BP3_CallBack);
     
     /****************************************************************************
@@ -195,12 +195,12 @@ void __attribute__ ((weak)) BP5_CallBack(void)
 
 }
 
-void __attribute__ ((weak)) BP6_CallBack(void)
+void __attribute__ ((weak)) BP4_CallBack(void)
 {
 
 }
 
-void __attribute__ ((weak)) BP4_CallBack(void)
+void __attribute__ ((weak)) BP6_CallBack(void)
 {
 
 }
@@ -222,18 +222,6 @@ void BP5_SetIOCInterruptHandler(void *handler)
     BP5_SetInterruptHandler(handler);
 }
 
-void BP6_SetInterruptHandler(void (* InterruptHandler)(void))
-{ 
-    IEC1bits.IOCIE = 0; //Disable IOCI interrupt
-    BP6_InterruptHandler = InterruptHandler; 
-    IEC1bits.IOCIE = 1; //Enable IOCI interrupt
-}
-
-void BP6_SetIOCInterruptHandler(void *handler)
-{ 
-    BP6_SetInterruptHandler(handler);
-}
-
 void BP4_SetInterruptHandler(void (* InterruptHandler)(void))
 { 
     IEC1bits.IOCIE = 0; //Disable IOCI interrupt
@@ -244,6 +232,18 @@ void BP4_SetInterruptHandler(void (* InterruptHandler)(void))
 void BP4_SetIOCInterruptHandler(void *handler)
 { 
     BP4_SetInterruptHandler(handler);
+}
+
+void BP6_SetInterruptHandler(void (* InterruptHandler)(void))
+{ 
+    IEC1bits.IOCIE = 0; //Disable IOCI interrupt
+    BP6_InterruptHandler = InterruptHandler; 
+    IEC1bits.IOCIE = 1; //Enable IOCI interrupt
+}
+
+void BP6_SetIOCInterruptHandler(void *handler)
+{ 
+    BP6_SetInterruptHandler(handler);
 }
 
 void BP3_SetInterruptHandler(void (* InterruptHandler)(void))
@@ -274,17 +274,6 @@ void __attribute__ (( interrupt, no_auto_psv )) _IOCInterrupt ( void )
 
         }
         
-        if(IOCFDbits.IOCFD1 == 1)
-        {
-            if(BP6_InterruptHandler) 
-            { 
-                BP6_InterruptHandler(); 
-            }
-            
-            IOCFDbits.IOCFD1 = 0;  //Clear flag for Pin - RD1
-
-        }
-        
         if(IOCFDbits.IOCFD13 == 1)
         {
             if(BP4_InterruptHandler) 
@@ -293,6 +282,17 @@ void __attribute__ (( interrupt, no_auto_psv )) _IOCInterrupt ( void )
             }
             
             IOCFDbits.IOCFD13 = 0;  //Clear flag for Pin - RD13
+
+        }
+        
+        if(IOCFDbits.IOCFD7 == 1)
+        {
+            if(BP6_InterruptHandler) 
+            { 
+                BP6_InterruptHandler(); 
+            }
+            
+            IOCFDbits.IOCFD7 = 0;  //Clear flag for Pin - RD7
 
         }
         

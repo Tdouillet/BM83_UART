@@ -80,7 +80,6 @@ extern uint8_t init_status;
 extern uint8_t init_tab[];
 extern uint8_t init_index;
 
-uint8_t temp_tab[];
 /** UART Driver Queue Length
 
   @Summary
@@ -124,8 +123,8 @@ void UART1_Initialize(void)
     U1MODE = (0x8008 & ~(1<<15));  // disabling UART ON bit
     // UTXISEL0 TX_ONE_CHAR; UTXINV disabled; URXEN disabled; OERR NO_ERROR_cleared; URXISEL RX_ONE_CHAR; UTXBRK COMPLETED; UTXEN disabled; ADDEN disabled; 
     U1STA = 0x00;
-    // BaudRate = 115200; Frequency = 4000000 Hz; U1BRG 8; 
-    U1BRG = 0x08;
+    // BaudRate = 57600; Frequency = 4000000 Hz; U1BRG 16; 
+    U1BRG = 0x10;
     
     txHead = txQueue;
     txTail = txQueue;
@@ -319,7 +318,9 @@ static uint8_t bReceiveState=0, bCheckSum;
 //                      // Sendmail program
 //                        Acquis_Primitive((bReceiveDataBuffer[4]<<8)+bReceiveDataBuffer[3],bReceiveDataBuffer+5, 0);
 //                        //printf("Primitive %04X",bReceiveDataBuffer[0]+(bReceiveDataBuffer[1]<<8));
-//                    }
+//                  
+                
+                }
                     if (count<2) {
                         count++;
                         if (count>=2) init_status = 0;
@@ -331,7 +332,7 @@ static uint8_t bReceiveState=0, bCheckSum;
                         
                         Event_Ack(bReceiveDataBuffer);
                     }
-                }
+                
                 
                 bReceiveState = 0;
                 break;
@@ -359,9 +360,9 @@ void __attribute__ ((weak)) UART1_Receive_CallBack(void)
                 if (count == 0){
                 Delay(2);
                 for (uint8_t i = 0; i<7; i++){
-                            temp_tab[i]=init_tab[i];
+                            
                         }
-                Event_Ack(temp_tab);
+                Event_Ack(init_tab);
                 
                 count = 0;
                 } else {

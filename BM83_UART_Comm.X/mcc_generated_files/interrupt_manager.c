@@ -54,15 +54,15 @@ void INTERRUPT_Initialize (void)
 {
     //    IOCI: IOC -  Interrupt On Change Interrupt
     //    Priority: 1
-        IPC4bits.IOCIP = 1;
+        IPC4bits.IOCIP = 2;
     //    UERI: U1E - UART1 Error
     //    Priority: 1
-        IPC16bits.U1ERIP = 1;
+        IPC16bits.U1ERIP = 2;
     //    UTXI: U1TX - UART1 Transmitter
     //    Priority: 1
-        IPC3bits.U1TXIP = 1;
+        IPC3bits.U1TXIP = 2;
     //    URXI: U1RX - UART1 Receiver
     //    Priority: 1
-        IPC2bits.U1RXIP = 1;
+        IPC2bits.U1RXIP = 2;
 
 }

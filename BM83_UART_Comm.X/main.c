@@ -56,9 +56,9 @@
 uint8_t rx_buf[] = {'\0'};
 uint8_t ack = 0;
 uint8_t command_sent = 3;
-uint8_t init_status = 1;
 uint8_t init_tab[7];
 uint8_t init_index = 0;
+uint8_t init_status = 1;
 uint8_t power_status = 0;
 
 void Manual_Send(uint8_t byte){
@@ -79,8 +79,65 @@ void Manual_Send(uint8_t byte){
     
 }
 
+//Turn on button
+void BP6_Press_Callback(void){
+    
+    UART1_Write(0xAA);
+    UART1_Write(0x00);
+    UART1_Write(0x03);
+    UART1_Write(0x02);
+    UART1_Write(0x00);
+    UART1_Write(0x51);
+    UART1_Write(0xAA);
+    command_sent=1;
+    
+    Delay(20);
+         
+    UART1_Write(0xAA);
+    UART1_Write(0x00);
+    UART1_Write(0x03);
+    UART1_Write(0x02);
+    UART1_Write(0x00);
+    UART1_Write(0x52);
+    UART1_Write(0xA9);
+    command_sent = 1;
+    
+    power_status = 1;
+    
+    Delay(3000);
+    
+}
 
-void BP6_Turnoff_Callback(void){
+void BP5_Press_Callback(void){
+}
+
+void BP4_Press_Callback(void){
+}
+
+//Turn off button
+void BP3_Press_Callback(void){
+    
+    UART1_Write(0xAA);
+    UART1_Write(0x00);
+    UART1_Write(0x03);
+    UART1_Write(0x02);
+    UART1_Write(0x00);
+    UART1_Write(0x53);
+    UART1_Write(0xA8);
+    command_sent=1;
+    
+    Delay(20);
+         
+    UART1_Write(0xAA);
+    UART1_Write(0x00);
+    UART1_Write(0x03);
+    UART1_Write(0x02);
+    UART1_Write(0x00);
+    UART1_Write(0x54);
+    UART1_Write(0xA7);
+    command_sent = 1;
+    
+    power_status = 0;
 }
 
 int main(void)
@@ -88,72 +145,27 @@ int main(void)
     // initialize the device
     SYSTEM_Initialize();
     
-    BP6_SetInterruptHandler(BP6_Turnoff_Callback);
+    BP6_SetInterruptHandler(BP6_Press_Callback);
+    BP5_SetInterruptHandler(BP5_Press_Callback);
+    BP4_SetInterruptHandler(BP4_Press_Callback);
+    BP3_SetInterruptHandler(BP3_Press_Callback);
     
-//    Delay(6000);
-//    
-//    UART1_Write(0xAA);
-//    UART1_Write(0x00);
-//    UART1_Write(0x03);
-//    UART1_Write(0x02);
-//    UART1_Write(0x00);
-//    UART1_Write(0x51);
-//    UART1_Write(0xAA);
-//    command_sent=1;
-//    
-//    Delay(20);
-//          
-//    UART1_Write(0xAA);
-//    UART1_Write(0x00);
-//    UART1_Write(0x03);
-//    UART1_Write(0x02);
-//    UART1_Write(0x00);
-//    UART1_Write(0x52);
-//    UART1_Write(0xA9);
-//    command_sent = 1;
-//    
-//    Delay(6000);
-
-
-//    Delay(100);
-//    Test_SetHigh();
-//    
-//    UART1_Write(0xAA);
-//    UART1_Write(0x00);
-//    UART1_Write(0x02);
-//    UART1_Write(0x32);
-//    UART1_Write(0x00);
-//    UART1_Write(0xCC);
+    LED_SetHigh();
+    Delay(6000);
+    LED_SetLow();
     
-
-//    Test_SetLow();
-
     while (1)
     {
         
-//        UART1_Write(0xFF);
-//            Delay(200);
-//        
-//                Manual_Send(0xAA);
-//                Manual_Send(0x00);
-//                Manual_Send(0x03);
-//                Manual_Send(0x02);
-//                Manual_Send(0x00);
-//                Manual_Send(0x51);
-//                Manual_Send(0xAA);
-//                command_sent=1;
-//    
-//                Delay(200);
-//          
-//                Manual_Send(0xAA);
-//                Manual_Send(0x00);
-//                Manual_Send(0x03);
-//                Manual_Send(0x02);
-//                Manual_Send(0x00);
-//                Manual_Send(0x52);
-//                Manual_Send(0xA9);
-//                command_sent = 1;
-        
+
+            
+        // Add your application code
+        if (!init_status){
+                        
+            if (!power_status){
+                
+                Delay(3000);
+                
                 UART1_Write(0xAA);
                 UART1_Write(0x00);
                 UART1_Write(0x03);
@@ -164,7 +176,7 @@ int main(void)
                 command_sent=1;
     
                 Delay(20);
-          
+         
                 UART1_Write(0xAA);
                 UART1_Write(0x00);
                 UART1_Write(0x03);
@@ -173,16 +185,20 @@ int main(void)
                 UART1_Write(0x52);
                 UART1_Write(0xA9);
                 command_sent = 1;
+    
+                power_status = 1;
+                
+            } 
             
-                Delay(2000);
-            
-        // Add your application code
-        if (!init_status){ //Initialization phase finished
-            
-            command_sent = 0;
-            Delay(3000);
-            
-            if (!power_status){
+        }
+        
+        
+//        if (!init_status){ //Initialization phase finished
+//            
+//            Delay(3000);
+//            
+//            if (!power_status){
+//                
 //                UART1_Write(0xAA);
 //                UART1_Write(0x00);
 //                UART1_Write(0x03);
@@ -202,9 +218,10 @@ int main(void)
 //                UART1_Write(0x52);
 //                UART1_Write(0xA9);
 //                command_sent = 1;
-                
+//                
 //                power_status = 1;
-            }
+//            }
+//        }
             
             
             
@@ -213,7 +230,7 @@ int main(void)
             
             
             
-        }
+        
 //        
     }
 

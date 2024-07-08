@@ -56,6 +56,152 @@
 */
 /**
   @Summary
+    Sets the GPIO pin, RA0, high using LATA0.
+
+  @Description
+    Sets the GPIO pin, RA0, high using LATA0.
+
+  @Preconditions
+    The RA0 must be set to an output.
+
+  @Returns
+    None.
+
+  @Param
+    None.
+
+  @Example
+    <code>
+    // Set RA0 high (1)
+    LED_SetHigh();
+    </code>
+
+*/
+#define LED_SetHigh()          (_LATA0 = 1)
+/**
+  @Summary
+    Sets the GPIO pin, RA0, low using LATA0.
+
+  @Description
+    Sets the GPIO pin, RA0, low using LATA0.
+
+  @Preconditions
+    The RA0 must be set to an output.
+
+  @Returns
+    None.
+
+  @Param
+    None.
+
+  @Example
+    <code>
+    // Set RA0 low (0)
+    LED_SetLow();
+    </code>
+
+*/
+#define LED_SetLow()           (_LATA0 = 0)
+/**
+  @Summary
+    Toggles the GPIO pin, RA0, using LATA0.
+
+  @Description
+    Toggles the GPIO pin, RA0, using LATA0.
+
+  @Preconditions
+    The RA0 must be set to an output.
+
+  @Returns
+    None.
+
+  @Param
+    None.
+
+  @Example
+    <code>
+    // Toggle RA0
+    LED_Toggle();
+    </code>
+
+*/
+#define LED_Toggle()           (_LATA0 ^= 1)
+/**
+  @Summary
+    Reads the value of the GPIO pin, RA0.
+
+  @Description
+    Reads the value of the GPIO pin, RA0.
+
+  @Preconditions
+    None.
+
+  @Returns
+    None.
+
+  @Param
+    None.
+
+  @Example
+    <code>
+    uint16_t portValue;
+
+    // Read RA0
+    postValue = LED_GetValue();
+    </code>
+
+*/
+#define LED_GetValue()         _RA0
+/**
+  @Summary
+    Configures the GPIO pin, RA0, as an input.
+
+  @Description
+    Configures the GPIO pin, RA0, as an input.
+
+  @Preconditions
+    None.
+
+  @Returns
+    None.
+
+  @Param
+    None.
+
+  @Example
+    <code>
+    // Sets the RA0 as an input
+    LED_SetDigitalInput();
+    </code>
+
+*/
+#define LED_SetDigitalInput()  (_TRISA0 = 1)
+/**
+  @Summary
+    Configures the GPIO pin, RA0, as an output.
+
+  @Description
+    Configures the GPIO pin, RA0, as an output.
+
+  @Preconditions
+    None.
+
+  @Returns
+    None.
+
+  @Param
+    None.
+
+  @Example
+    <code>
+    // Sets the RA0 as an output
+    LED_SetDigitalOutput();
+    </code>
+
+*/
+#define LED_SetDigitalOutput() (_TRISA0 = 0)
+/**
+  @Summary
     Sets the GPIO pin, RA7, high using LATA7.
 
   @Description
@@ -348,152 +494,6 @@
 #define TX_SetDigitalOutput() (_TRISA9 = 0)
 /**
   @Summary
-    Sets the GPIO pin, RD1, high using LATD1.
-
-  @Description
-    Sets the GPIO pin, RD1, high using LATD1.
-
-  @Preconditions
-    The RD1 must be set to an output.
-
-  @Returns
-    None.
-
-  @Param
-    None.
-
-  @Example
-    <code>
-    // Set RD1 high (1)
-    BP6_SetHigh();
-    </code>
-
-*/
-#define BP6_SetHigh()          (_LATD1 = 1)
-/**
-  @Summary
-    Sets the GPIO pin, RD1, low using LATD1.
-
-  @Description
-    Sets the GPIO pin, RD1, low using LATD1.
-
-  @Preconditions
-    The RD1 must be set to an output.
-
-  @Returns
-    None.
-
-  @Param
-    None.
-
-  @Example
-    <code>
-    // Set RD1 low (0)
-    BP6_SetLow();
-    </code>
-
-*/
-#define BP6_SetLow()           (_LATD1 = 0)
-/**
-  @Summary
-    Toggles the GPIO pin, RD1, using LATD1.
-
-  @Description
-    Toggles the GPIO pin, RD1, using LATD1.
-
-  @Preconditions
-    The RD1 must be set to an output.
-
-  @Returns
-    None.
-
-  @Param
-    None.
-
-  @Example
-    <code>
-    // Toggle RD1
-    BP6_Toggle();
-    </code>
-
-*/
-#define BP6_Toggle()           (_LATD1 ^= 1)
-/**
-  @Summary
-    Reads the value of the GPIO pin, RD1.
-
-  @Description
-    Reads the value of the GPIO pin, RD1.
-
-  @Preconditions
-    None.
-
-  @Returns
-    None.
-
-  @Param
-    None.
-
-  @Example
-    <code>
-    uint16_t portValue;
-
-    // Read RD1
-    postValue = BP6_GetValue();
-    </code>
-
-*/
-#define BP6_GetValue()         _RD1
-/**
-  @Summary
-    Configures the GPIO pin, RD1, as an input.
-
-  @Description
-    Configures the GPIO pin, RD1, as an input.
-
-  @Preconditions
-    None.
-
-  @Returns
-    None.
-
-  @Param
-    None.
-
-  @Example
-    <code>
-    // Sets the RD1 as an input
-    BP6_SetDigitalInput();
-    </code>
-
-*/
-#define BP6_SetDigitalInput()  (_TRISD1 = 1)
-/**
-  @Summary
-    Configures the GPIO pin, RD1, as an output.
-
-  @Description
-    Configures the GPIO pin, RD1, as an output.
-
-  @Preconditions
-    None.
-
-  @Returns
-    None.
-
-  @Param
-    None.
-
-  @Example
-    <code>
-    // Sets the RD1 as an output
-    BP6_SetDigitalOutput();
-    </code>
-
-*/
-#define BP6_SetDigitalOutput() (_TRISD1 = 0)
-/**
-  @Summary
     Sets the GPIO pin, RD13, high using LATD13.
 
   @Description
@@ -638,6 +638,152 @@
 
 */
 #define BP4_SetDigitalOutput() (_TRISD13 = 0)
+/**
+  @Summary
+    Sets the GPIO pin, RD7, high using LATD7.
+
+  @Description
+    Sets the GPIO pin, RD7, high using LATD7.
+
+  @Preconditions
+    The RD7 must be set to an output.
+
+  @Returns
+    None.
+
+  @Param
+    None.
+
+  @Example
+    <code>
+    // Set RD7 high (1)
+    BP6_SetHigh();
+    </code>
+
+*/
+#define BP6_SetHigh()          (_LATD7 = 1)
+/**
+  @Summary
+    Sets the GPIO pin, RD7, low using LATD7.
+
+  @Description
+    Sets the GPIO pin, RD7, low using LATD7.
+
+  @Preconditions
+    The RD7 must be set to an output.
+
+  @Returns
+    None.
+
+  @Param
+    None.
+
+  @Example
+    <code>
+    // Set RD7 low (0)
+    BP6_SetLow();
+    </code>
+
+*/
+#define BP6_SetLow()           (_LATD7 = 0)
+/**
+  @Summary
+    Toggles the GPIO pin, RD7, using LATD7.
+
+  @Description
+    Toggles the GPIO pin, RD7, using LATD7.
+
+  @Preconditions
+    The RD7 must be set to an output.
+
+  @Returns
+    None.
+
+  @Param
+    None.
+
+  @Example
+    <code>
+    // Toggle RD7
+    BP6_Toggle();
+    </code>
+
+*/
+#define BP6_Toggle()           (_LATD7 ^= 1)
+/**
+  @Summary
+    Reads the value of the GPIO pin, RD7.
+
+  @Description
+    Reads the value of the GPIO pin, RD7.
+
+  @Preconditions
+    None.
+
+  @Returns
+    None.
+
+  @Param
+    None.
+
+  @Example
+    <code>
+    uint16_t portValue;
+
+    // Read RD7
+    postValue = BP6_GetValue();
+    </code>
+
+*/
+#define BP6_GetValue()         _RD7
+/**
+  @Summary
+    Configures the GPIO pin, RD7, as an input.
+
+  @Description
+    Configures the GPIO pin, RD7, as an input.
+
+  @Preconditions
+    None.
+
+  @Returns
+    None.
+
+  @Param
+    None.
+
+  @Example
+    <code>
+    // Sets the RD7 as an input
+    BP6_SetDigitalInput();
+    </code>
+
+*/
+#define BP6_SetDigitalInput()  (_TRISD7 = 1)
+/**
+  @Summary
+    Configures the GPIO pin, RD7, as an output.
+
+  @Description
+    Configures the GPIO pin, RD7, as an output.
+
+  @Preconditions
+    None.
+
+  @Returns
+    None.
+
+  @Param
+    None.
+
+  @Example
+    <code>
+    // Sets the RD7 as an output
+    BP6_SetDigitalOutput();
+    </code>
+
+*/
+#define BP6_SetDigitalOutput() (_TRISD7 = 0)
 /**
   @Summary
     Sets the GPIO pin, RE7, high using LATE7.
@@ -988,27 +1134,6 @@ void BP5_CallBack(void);
 
 /**
   @Summary
-    Callback for BP6 Pin.
-
-  @Description
-    This routine is callback for BP6 Pin
-
-  @Param
-    None.
-
-  @Returns
-    None
- 
- 
-  @Example 
-    <code>
-        BP6_SetInterruptHandler(&BP6_CallBack);
-    </code>
-*/
-void BP6_CallBack(void);
-
-/**
-  @Summary
     Callback for BP4 Pin.
 
   @Description
@@ -1027,6 +1152,27 @@ void BP6_CallBack(void);
     </code>
 */
 void BP4_CallBack(void);
+
+/**
+  @Summary
+    Callback for BP6 Pin.
+
+  @Description
+    This routine is callback for BP6 Pin
+
+  @Param
+    None.
+
+  @Returns
+    None
+ 
+ 
+  @Example 
+    <code>
+        BP6_SetInterruptHandler(&BP6_CallBack);
+    </code>
+*/
+void BP6_CallBack(void);
 
 /**
   @Summary
@@ -1105,46 +1251,6 @@ void __attribute__((deprecated("\nThis will be removed in future MCC releases. \
  
   @Example 
     <code>
-        BP6_SetInterruptHandler(&BP6_CallBack);
-    </code>
-*/
-void BP6_SetInterruptHandler(void (* InterruptHandler)(void));
-
-/**
-  @Summary
-    Assigns a function pointer with a callback address.
-
-  @Description
-    This routine assigns a function pointer with a callback address.
-
-  @Param
-    Address of the callback routine.
-
-  @Returns
-    None
- 
-  @Example 
-    <code>
-        BP6_SetIOCInterruptHandler(&BP6_CallBack);
-    </code>
-*/
-void __attribute__((deprecated("\nThis will be removed in future MCC releases. \nUse BP6_SetInterruptHandler instead."))) BP6_SetIOCInterruptHandler(void *handler);
-
-/**
-  @Summary
-    Assigns a function pointer with a callback address.
-
-  @Description
-    This routine assigns a function pointer with a callback address.
-
-  @Param
-    Address of the callback routine.
-
-  @Returns
-    None
- 
-  @Example 
-    <code>
         BP4_SetInterruptHandler(&BP4_CallBack);
     </code>
 */
@@ -1169,6 +1275,46 @@ void BP4_SetInterruptHandler(void (* InterruptHandler)(void));
     </code>
 */
 void __attribute__((deprecated("\nThis will be removed in future MCC releases. \nUse BP4_SetInterruptHandler instead."))) BP4_SetIOCInterruptHandler(void *handler);
+
+/**
+  @Summary
+    Assigns a function pointer with a callback address.
+
+  @Description
+    This routine assigns a function pointer with a callback address.
+
+  @Param
+    Address of the callback routine.
+
+  @Returns
+    None
+ 
+  @Example 
+    <code>
+        BP6_SetInterruptHandler(&BP6_CallBack);
+    </code>
+*/
+void BP6_SetInterruptHandler(void (* InterruptHandler)(void));
+
+/**
+  @Summary
+    Assigns a function pointer with a callback address.
+
+  @Description
+    This routine assigns a function pointer with a callback address.
+
+  @Param
+    Address of the callback routine.
+
+  @Returns
+    None
+ 
+  @Example 
+    <code>
+        BP6_SetIOCInterruptHandler(&BP6_CallBack);
+    </code>
+*/
+void __attribute__((deprecated("\nThis will be removed in future MCC releases. \nUse BP6_SetInterruptHandler instead."))) BP6_SetIOCInterruptHandler(void *handler);
 
 /**
   @Summary
