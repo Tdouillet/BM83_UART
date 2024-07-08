@@ -12,34 +12,12 @@
 #include "DELAY.h"
 #include "mcc_generated_files/pin_manager.h"
 
-//void Manual_Send(uint8_t byte){
-//    
-//    TX_SetLow();
-//    Delay_us(9);
-//    for (uint8_t i=0; i<8; i++){
-//        if (byte%2 == 0){
-//            TX_SetHigh();
-//        } else {
-//            TX_SetLow();
-//        }
-//        Delay_us(9);
-//        byte=byte >> 1;
-//    }
-//    TX_SetHigh();
-//    Delay_us(9);
-//    
-//}
+extern uint8_t command_sent;
+extern uint8_t power_status;
 
 void Event_Ack(uint8_t tab[]){
     
     uint8_t checksum = 1+~(0x02+0x14+tab[0]);
-    
-//    Manual_Send(0xAA);
-//    Manual_Send(0x00);
-//    Manual_Send(0x02);
-//    Manual_Send(0x14);
-//    Manual_Send(tab[0]);
-//    Manual_Send(checksum);
     
     UART1_Send(0xAA);
     UART1_Send(0x00);
@@ -49,6 +27,97 @@ void Event_Ack(uint8_t tab[]){
     UART1_Send(checksum);
     
 
+}
+
+void Module_On(void){
+    
+    UART1_Write(0xAA);
+    UART1_Write(0x00);
+    UART1_Write(0x03);
+    UART1_Write(0x02);
+    UART1_Write(0x00);
+    UART1_Write(0x51);
+    UART1_Write(0xAA);
+    command_sent=1;
+    
+    Delay(20);
+         
+    UART1_Write(0xAA);
+    UART1_Write(0x00);
+    UART1_Write(0x03);
+    UART1_Write(0x02);
+    UART1_Write(0x00);
+    UART1_Write(0x52);
+    UART1_Write(0xA9);
+    command_sent = 1;
+    
+    power_status = 1;
+        
+}
+
+void Module_Off(void){
+    
+    UART1_Write(0xAA);
+    UART1_Write(0x00);
+    UART1_Write(0x03);
+    UART1_Write(0x02);
+    UART1_Write(0x00);
+    UART1_Write(0x53);
+    UART1_Write(0xA8);
+    command_sent=1;
+    
+    Delay(20);
+         
+    UART1_Write(0xAA);
+    UART1_Write(0x00);
+    UART1_Write(0x03);
+    UART1_Write(0x02);
+    UART1_Write(0x00);
+    UART1_Write(0x54);
+    UART1_Write(0xA7);
+    command_sent = 1;
+    
+    power_status = 0;
+    
+}
+
+void Pair_Device(void){
+    
+    UART1_Write(0xAA);
+    UART1_Write(0x00);
+    UART1_Write(0x03);
+    UART1_Write(0x02);
+    UART1_Write(0x00);
+    UART1_Write(0x5D);
+    UART1_Write(0x9E);
+    command_sent = 1;
+    
+}
+
+void Exit_Pairing(void){
+    
+    UART1_Write(0xAA);
+    UART1_Write(0x00);
+    UART1_Write(0x03);
+    UART1_Write(0x02);
+    UART1_Write(0x00);
+    UART1_Write(0x6B);
+    UART1_Write(0x90);
+    command_sent = 1;
+    
+}
+
+void Toggle_Music(void) {
+    
+    UART1_Write(0xAA);
+    UART1_Write(0x00);
+    UART1_Write(0x03);
+    UART1_Write(0x04);
+    UART1_Write(0x00);
+    UART1_Write(0x07);
+    UART1_Write(0xF2);
+    command_sent = 1;
+    
 }
 
 

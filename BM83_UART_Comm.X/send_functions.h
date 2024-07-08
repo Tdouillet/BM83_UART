@@ -79,3 +79,13 @@ extern "C" {
 void Event_Ack(uint8_t tab[]);
 
 void Manual_Send(uint8_t byte);
+
+void Module_On(void);
+
+void Module_Off(void);
+
+void Pair_Device(void);
+
+void Exit_Pairing(void);
+
+void Toggle_Music(void);

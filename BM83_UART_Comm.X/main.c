@@ -60,84 +60,44 @@ uint8_t init_tab[7];
 uint8_t init_index = 0;
 uint8_t init_status = 1;
 uint8_t power_status = 0;
+uint8_t pairing = 0;
 
-void Manual_Send(uint8_t byte){
-    
-    TX_SetLow();
-    Delay_us(1);
-    for (uint8_t i=0; i<8; i++){
-        if (byte%2 != 0){
-            TX_SetHigh();
-        } else {
-            TX_SetLow();
-        }
-        Delay_us(1);
-        byte=byte >> 1;
-    }
-    TX_SetHigh();
-//    Delay_us(1);
-    
-}
+
 
 //Turn on button
 void BP6_Press_Callback(void){
-    
-    UART1_Write(0xAA);
-    UART1_Write(0x00);
-    UART1_Write(0x03);
-    UART1_Write(0x02);
-    UART1_Write(0x00);
-    UART1_Write(0x51);
-    UART1_Write(0xAA);
-    command_sent=1;
-    
-    Delay(20);
-         
-    UART1_Write(0xAA);
-    UART1_Write(0x00);
-    UART1_Write(0x03);
-    UART1_Write(0x02);
-    UART1_Write(0x00);
-    UART1_Write(0x52);
-    UART1_Write(0xA9);
-    command_sent = 1;
-    
-    power_status = 1;
-    
-    Delay(3000);
+ 
+    Toggle_Music();
     
 }
 
 void BP5_Press_Callback(void){
+    
+    
+    
 }
 
 void BP4_Press_Callback(void){
+    if (pairing){
+        Exit_Pairing();
+        pairing = 0;
+    } else {
+        Pair_Device();
+        pairing = 1;
+    }
 }
 
 //Turn off button
 void BP3_Press_Callback(void){
     
-    UART1_Write(0xAA);
-    UART1_Write(0x00);
-    UART1_Write(0x03);
-    UART1_Write(0x02);
-    UART1_Write(0x00);
-    UART1_Write(0x53);
-    UART1_Write(0xA8);
-    command_sent=1;
+    if (power_status){
+        Module_Off();
+        power_status = 0;
+    } else {
+        Module_On();
+        power_status = 1;
+    }
     
-    Delay(20);
-         
-    UART1_Write(0xAA);
-    UART1_Write(0x00);
-    UART1_Write(0x03);
-    UART1_Write(0x02);
-    UART1_Write(0x00);
-    UART1_Write(0x54);
-    UART1_Write(0xA7);
-    command_sent = 1;
-    
-    power_status = 0;
 }
 
 int main(void)
@@ -154,84 +114,14 @@ int main(void)
     Delay(6000);
     LED_SetLow();
     
+    Module_On();
+    
     while (1)
-    {
-        
-
-            
+    {          
         // Add your application code
-        if (!init_status){
-                        
-            if (!power_status){
-                
-                Delay(3000);
-                
-                UART1_Write(0xAA);
-                UART1_Write(0x00);
-                UART1_Write(0x03);
-                UART1_Write(0x02);
-                UART1_Write(0x00);
-                UART1_Write(0x51);
-                UART1_Write(0xAA);
-                command_sent=1;
+        
     
-                Delay(20);
-         
-                UART1_Write(0xAA);
-                UART1_Write(0x00);
-                UART1_Write(0x03);
-                UART1_Write(0x02);
-                UART1_Write(0x00);
-                UART1_Write(0x52);
-                UART1_Write(0xA9);
-                command_sent = 1;
-    
-                power_status = 1;
-                
-            } 
-            
-        }
         
-        
-//        if (!init_status){ //Initialization phase finished
-//            
-//            Delay(3000);
-//            
-//            if (!power_status){
-//                
-//                UART1_Write(0xAA);
-//                UART1_Write(0x00);
-//                UART1_Write(0x03);
-//                UART1_Write(0x02);
-//                UART1_Write(0x00);
-//                UART1_Write(0x51);
-//                UART1_Write(0xAA);
-//                command_sent=1;
-//    
-//                Delay(20);
-//          
-//                UART1_Write(0xAA);
-//                UART1_Write(0x00);
-//                UART1_Write(0x03);
-//                UART1_Write(0x02);
-//                UART1_Write(0x00);
-//                UART1_Write(0x52);
-//                UART1_Write(0xA9);
-//                command_sent = 1;
-//                
-//                power_status = 1;
-//            }
-//        }
-            
-            
-            
-            
-            
-            
-            
-            
-        
-//        
     }
 
     return 1;

@@ -54,7 +54,7 @@ void INTERRUPT_Initialize (void)
 {
     //    IOCI: IOC -  Interrupt On Change Interrupt
     //    Priority: 1
-        IPC4bits.IOCIP = 2;
+        IPC4bits.IOCIP = 1;
     //    UERI: U1E - UART1 Error
     //    Priority: 1
         IPC16bits.U1ERIP = 2;
