@@ -120,6 +120,21 @@ void Toggle_Music(void) {
     
 }
 
+void Voice_Prompt(uint8_t byte){
+    
+    uint8_t checksum = 1+~(0x03+0x13+0x02+byte);
+    
+    UART1_Write(0xAA);
+    UART1_Write(0x00);
+    UART1_Write(0x03);
+    UART1_Write(0x13);
+    UART1_Write(0x02);
+    UART1_Write(byte);
+    UART1_Write(checksum);
+    command_sent = 1;
+    
+}
+
 
 
 

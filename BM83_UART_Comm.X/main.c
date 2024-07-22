@@ -54,8 +54,7 @@
                          Main application
  */
 uint8_t rx_buf[] = {'\0'};
-uint8_t ack = 0;
-uint8_t command_sent = 3;
+uint8_t command_sent = 0;
 uint8_t init_tab[7];
 uint8_t init_index = 0;
 uint8_t init_status = 1;
@@ -67,7 +66,7 @@ uint8_t pairing = 0;
 //Turn on button
 void BP6_Press_Callback(void){
  
-    Toggle_Music();
+    Voice_Prompt(0xC0);
     
 }
 
@@ -78,13 +77,8 @@ void BP5_Press_Callback(void){
 }
 
 void BP4_Press_Callback(void){
-    if (pairing){
-        Exit_Pairing();
-        pairing = 0;
-    } else {
-        Pair_Device();
-        pairing = 1;
-    }
+    
+    Voice_Prompt(0xC1);
 }
 
 //Turn off button
@@ -115,6 +109,23 @@ int main(void)
     LED_SetLow();
     
     Module_On();
+    
+    Delay(1000);
+            
+    UART1_Write(0xAA);
+    UART1_Write(0x00);
+    UART1_Write(0x09);
+    UART1_Write(0x05);
+    UART1_Write(0x53);
+    UART1_Write(0x6B);
+    UART1_Write(0x79);
+    UART1_Write(0x47);
+    UART1_Write(0x75);
+    UART1_Write(0x61);
+    UART1_Write(0x72);
+    UART1_Write(0x64);
+    UART1_Write(0xC8);
+        
     
     while (1)
     {          

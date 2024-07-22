@@ -89,3 +89,5 @@ void Pair_Device(void);
 void Exit_Pairing(void);
 
 void Toggle_Music(void);
+
+void Voice_Prompt(uint8_t byte);
